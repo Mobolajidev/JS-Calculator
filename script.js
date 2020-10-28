@@ -1,111 +1,120 @@
-const decimal = 
-      document.getElementById("decimal");
-const clear =
-      document.getElementById("clear");
+const calculator = {
+  displayValue: "0",
+ firstOperand: null,
+    waitingForSecondOperand: false,
+    operator: null,
+};
 
-const displayValElement =
-      document.getElementById("display-result");
+function inputDigit(digit) {
+    const { displayValue, waitingForSecondOperand } = calculator;
+    
+    if (waitingForSecondOperand === true) {
+        calculator.displayValue = digit;
+        calculator.waitingForSecondOperand = false;
+    }
+    else{
+            calculator.displayValue = displayValue === '0' ? digit : displayValue + digit;
 
-const digit =
-      document.getElementsByClassName("digit");
+    }
+      console.log(calculator);  
+};
 
-const operators = 
-      document.getElementsByClassName("operator");
+function updateDisplay() {
+  const display = document.querySelector('.calculator-screen');
+    display.value = calculator.displayValue;
+};
 
 
 
-var displayVal = '0';
-var pendingVal;
-var evalStringArray = [];
 
-updateDisplay = (e) => {
-    var text = e.target.innerText;
-    if(displayVal === "0"){
-        displayVal = ""
+
+const keys = document.querySelector('.calculator-keys');
+keys.addEventListener('click', (event) => {
+    const { target } = event;
+    
+    if (!target.matches ('button')){
+        return;
     }
     
-    displayVal += text;
-    displayValElement.innerText = displayVal;
-}
-
-performOperation = (e) => {
-    var operator = e.target.innerText;
+    if (target.classList.contains('operator')) {
+        handleOperator(target.value);
+        updateDisplay();
+        return;
+    }
     
+    if (target.classList.contains('decimal')) {
+       inputDigit (target.value);
+        updateDisplay();
+        console.log(calculator);
 
-
-
-    switch (operator){
-        case '+':
-            pendingVal = displayVal;
-            displayVal = '0';
-            displayValElement.innerText = displayVal;
-            
-        evalStringArray.push(pendingVal);
-            evalStringArray.push('+');
-             break;
-        case '-':
-            pendingVal = displayVal;
-            displayVal= '0';
-            displayValElement.innerText = displayVal;
-            
-            evalStringArray.push(pendingVal);
-            evalStringArray.push('-');
-            break;
-            
-            case '×':
-            pendingVal = displayVal;
-            displayVal= '0';
-            displayValElement.innerText = displayVal;
-            
-            evalStringArray.push(pendingVal);
-            evalStringArray.push('*');
-            break;
-            
-            case '÷':
-            pendingVal = displayVal;
-            displayVal= '0';
-            displayValElement.innerText = displayVal;
-            
-            evalStringArray.push(pendingVal);
-            evalStringArray.push('/');
-            break;
-            
-        case '=':
-            evalStringArray.push(displayVal);
-            var evaluation = eval(evalStringArray.join(' '));
-            // convert datatype from number to string
-            displayVal = evaluation + ''; 
-            console.log(typeof displayVal);
-            displayValElement.innerText = displayVal;
-            evalStringArray = []; // clear the array
-            break;
-        default:
-            break;
+        return;
     }
-}
+    
+    if (target.classList.contains('all-clear')) {
+        resetCalculator();
+        updateDisplay();
+        return;
+    }
+    
+   inputDigit (target.value);
+updateDisplay();
 
-for (let i = 0; i < digit.length; i++)
-    {
+});
+
+function inputDecimal(dot) {
+    if (calculator.waitingForSecondOperand === true ) return;
+    
+    if(!calculator.displayValue.includes(dot)){
+        calculator.displayValue += dot;
+    }
+};
+
+function handleOperator(nextOperator){
+    const { firstOperand, displayValue, operator } = calculator
+    const inputValue = parseFloat(displayValue);
+    
+    if (operator && calculator.waitingForSecondOperand){
+        calculator.operator = nextOperator;
+        console.log(calculator)
+        return;
+    }
+    
+    if (firstOperand == null) {
+        calculator.firstOperand = inputValue;
+    }
+    else if (operator){
+        const result = performCalculation[operator](firstOperand, inputValue);
         
-        digit[i].addEventListener('click',  updateDisplay)
-        
+        calculator.displayValue = String(result);
+        calculator.firstOperand = result;
     }
+    
+    calculator.waitingForSecondOperand = true;
+    calculator.operator = nextOperator;
+    console.log (calculator);
+};
 
-for(let i = 0; i < operators.length; i++)
-    {
-        operators[i].addEventListener('click',  performOperation);
-    }
+const performCalculation = {
+    '/': (firstOperand, secondOperand) => firstOperand / secondOperand,
+    
+    '*': (firstOperand, secondOperand) => firstOperand * secondOperand,
+    
+    '+': (firstOperand, secondOperand) => firstOperand + secondOperand,
+    
+    '-': (firstOperand, secondOperand) => firstOperand - secondOperand,
+   
+};
 
-clear.onclick = () => {
-    displayVal = '0';
-    pendingVal = undefined;
-    evalStringArray = [];
-    displayValElement.innerHTML = displayVal;
-}
+function resetCalculator() {
+    calculator.displayValue = '0';
+    calculator.firstOperand = null;
+    calculator.waitingForSecondOperand = false;
+    calculator.operator = null;
+    
+    
+};
 
-decimal.onclick = () => { 
-    if(!displayVal.includes('.')) {
-        displayVal += '.';
-    }
-    displayValElement.innerText = displayVal;
-}
+
+
+
+

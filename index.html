@@ -1,65 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    
-    <title>JS Calculator</title>
-    
-<!--    CSS-->
-    <link href="style.css" type="text/css" rel="stylesheet">
-   
-    
-    </head>
-    
-    
-    <body>
-        
-        <div id="wrapper">
-        
-        <div id="display-panel">
-            <h1 id="display-result">0</h1>
-            </div>
-        <!--======================DIGITS======================-->
-            <div id="container">
-            
-            <button id="one" class="key digit">1</button>
-            
-            <button id="two" class="key digit">2</button>
-            
-            <button id="three" class="key digit">3</button>
-            
-            <button id="four" class="key digit">4</button>
-            
-            <button id="five" class="key digit">5</button>
-            
-            <button id="six" class="key digit">6</button>
-            
-            <button id="seven" class="key digit">7</button>
-            
-            <button id="eight" class="key digit">8</button>
-            
-            <button id="nine" class="key digit">9</button>
-            <button id="zero" class="key digit">0</button>
-            
-             <button id="clear" class="key">C</button>
-                
-              <button id="decimal" class="key">&period;</button>
-                
-            <button id="equals" class="key" >&equals;</button>   
+<meta charset="utf-8">
+    <link href="style.css" rel="stylesheet" type="text/css">
 
-            
-<!--            ======================OPERATIONS======================-->
-                        <button id="plus" class="key operator">&plus;</button>
+</head>
+<body>
+<div class="calculator">
 
-                        <button id="minus" class="key operator">&minus;</button>
-
-                        <button id="times" class="key operator">&times;</button>
-
-                        <button id="divide" class="key operator">&divide;</button>
-
-                </div>
-        </div>
+  <input type="text" class="calculator-screen" value="0" disabled />
+  
+  <div class="calculator-keys">
     
-    <script src="script.js"></script> 
+    <button type="button" class="operator" value="+">+</button>
+    <button type="button" class="operator" value="-">-</button>
+    <button type="button" class="operator" value="*">&times;</button>
+    <button type="button" class="operator" value="/">&divide;</button>
+
+    <button type="button" value="7">7</button>
+    <button type="button" value="8">8</button>
+    <button type="button" value="9">9</button>
+
+
+    <button type="button" value="4">4</button>
+    <button type="button" value="5">5</button>
+    <button type="button" value="6">6</button>
+
+
+    <button type="button" value="1">1</button>
+    <button type="button" value="2">2</button>
+    <button type="button" value="3">3</button>
+
+
+    <button type="button" value="0">0</button>
+    <button type="button" class="decimal function" value=".">.</button>
+    <button type="button" class="all-clear function" value="all-clear">AC</button>
+
+    <button type="button" class="equal-sign operator" value="=">=</button>
+
+  </div>
+</div>
     </body>
-</html>
+    <script src="script.js"></script>
+    </html>
